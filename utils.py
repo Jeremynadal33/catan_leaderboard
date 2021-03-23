@@ -25,7 +25,6 @@ def create_players(path='home'):
     dico = {}
     if path == 'home':
         df = pd.read_csv("/Users/jeremynadal/Documents/catan_winners/players.csv")
-        print(df.columns)
         for ind in range(df.shape[0]):
             player = Player(first_name = df['first_name'][ind] ,
                             last_name = df['last_name'][ind],
@@ -55,7 +54,6 @@ def get_players_dataframe(players):
     df = pd.DataFrame(columns=['Surname', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army'])
     for player in players.values():
         df = df.append(player.to_dict(), ignore_index = True)
-    print(df.head())
     df['Avg number of points'] = (df['Total of points']/df['Total games']).astype('float64').round(2)
     df['Winning rate'] = (df['Number of wins']/df['Total games']).astype('float64').round(2)
     df['Longest road rate'] = (df['Num. longest road']/df['Total games']).astype('float64').round(2)

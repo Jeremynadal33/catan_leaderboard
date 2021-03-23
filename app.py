@@ -17,22 +17,17 @@ except ModuleNotFoundError:
     from streamlit.report_thread import get_report_ctx
     from streamlit.server.server import Server
 
-home_path = "/Users/jeremynadal/Documents/catan_winners/database.csv"
+home_path = ["/Users/jeremynadal/Documents/catan_winners/data/database.csv","/home/ubuntu/catan_leaderboard/data/database.csv"]
+
 pd.options.plotting.backend = "plotly"
 ###################### FUNCTIONS #################
 #@st.cache
-def get_data(path = 'home'):
+def get_data(path):
     try:
-        if path == 'home':
-            data = pd.read_csv(home_path)
-            assert np.all(data.columns == ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension']), "Columns of the .csv file must be : ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension']"
-            data['extension'] = data['extension'].fillna('Base game')
-            return data
-        else :
-            data = pd.read_csv(path)
-            assert np.all(data.columns == ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension']), "Columns of the .csv file must be : ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension']"
-            data['extension'] = data['extension'].fillna('Base game')
-            return data
+        data = pd.read_csv(path)
+        assert np.all(data.columns == ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension']), "Columns of the .csv file must be : ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension']"
+        data['extension'] = data['extension'].fillna('Base game')
+        return data
     except Exception as e:
         pass
     return pd.DataFrame()
@@ -111,8 +106,6 @@ def _get_state(hash_funcs=None):
 
     return session._custom_session_state
 
-def jump():
-    return st.write('\n')
 ################### Rest is for the application itself #################
 def display_leaderboard(state):
     cols = st.beta_columns([1,1,1])
@@ -232,7 +225,7 @@ def menu_home(state):
         state.players = players
 
     # If one wants to use the existing .csv
-    if os.path.exists(home_path):
+    if state.db_path:
         col1, col2, col3  = st.beta_columns(3)
         with col1:
             pass
@@ -243,7 +236,7 @@ def menu_home(state):
                 home = True
 
     if home :
-        games = get_data()
+        games = get_data(path = state.db_path)
         games, players = reform_arrays(games)
         players = update_players_from_db(players, games)
 
@@ -253,7 +246,7 @@ def menu_home(state):
     if np.all(state.games) != None :
         with st.beta_expander("See .csv file"):
             st.dataframe(state.games.head().assign(hack='').set_index('hack'))
-    #players = create_players()
+
     if state.players != None:
         state.players_df = get_players_dataframe(state.players)
 
@@ -263,6 +256,10 @@ def menu_home(state):
 
 def main():
     state = _get_state()
+    for path in home_path:
+        if os.path.exists(path):
+            state.db_path = path
+    print('{} exists'.format(state.db_path))
     st.title("Catan winners : let's see who is the best settler")
     possibilities = ["Home", "Leaderboard", "Players", "Add game"]
     choice = st.sidebar.selectbox("Menu",possibilities)
