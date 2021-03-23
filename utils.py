@@ -55,7 +55,7 @@ def get_players_dataframe(players):
     df = pd.DataFrame(columns=['Surname', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army'])
     for player in players.values():
         df = df.append(player.to_dict(), ignore_index = True)
-        
+    print(df.head())
     df['Avg number of points'] = (df['Total of points']/df['Total games']).astype('float64').round(2)
     df['Winning rate'] = (df['Number of wins']/df['Total games']).astype('float64').round(2)
     df['Longest road rate'] = (df['Num. longest road']/df['Total games']).astype('float64').round(2)

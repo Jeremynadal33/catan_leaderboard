@@ -226,6 +226,11 @@ def menu_home(state):
         games = get_data(csv)
         games, players = reform_arrays(games)
 
+        players = update_players_from_db(players, games)
+
+        state.games = games
+        state.players = players
+
     # If one wants to use the existing .csv
     if os.path.exists(home_path):
         col1, col2, col3  = st.beta_columns(3)
