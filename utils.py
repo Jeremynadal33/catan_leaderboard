@@ -60,6 +60,9 @@ def get_players_dataframe(players):
     df['Largest army rate'] = (df['Num. largest army']/df['Total games']).astype('float64').round(2)
     return df
 
+def add_player(df, player):
+    pass
+
 
 
 if __name__ == '__main__':

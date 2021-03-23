@@ -25,7 +25,7 @@ pd.options.plotting.backend = "plotly"
 def get_data(path):
     try:
         data = pd.read_csv(path)
-        assert np.all(data.columns == ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension']), "Columns of the .csv file must be : ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension']"
+        assert np.all(data.columns == ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']), "Columns of the .csv file must be : ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']"
         data['extension'] = data['extension'].fillna('Base game')
         return data
     except Exception as e:
@@ -182,7 +182,7 @@ def add_game(state):
             if state.players != None:
                 names.append(st.selectbox(f"Player {player+1}:",['']+list(state.players.keys())))
             else:
-                names.append(st.text_input(f"Player {player+1}:"))
+                names.append(st.text_input(f"Player {player+1}:",max_chars = 30, help="test"))
     with cols[1] :
         for player in range(num_persons):
             scores.append(st.number_input(f"Score {player+1}:",0,to_win,0 ))
