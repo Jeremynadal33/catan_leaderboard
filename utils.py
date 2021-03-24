@@ -71,6 +71,8 @@ def add_player(df_player, player, path):
     df_player = df_player.append(to_append, ignore_index=True)
 
     df_player.to_csv(path, index = False)
+
+    send_welcome_email(player)
     return df_player
 
 def save_game(df_games, game, path):
@@ -90,6 +92,23 @@ def save_game(df_games, game, path):
     send_game_mail(game)
     return True
 
+def send_welcome_email(player):
+    smtp_address = 'smtp.gmail.com'
+    smtp_port = 465
+    # on rentre les informations sur notre adresse e-mail
+    email_address = 'streamlitmailsender@gmail.com'
+    email_password = 'sEzju1-zoqcex-wuzjyj'
+
+    text = "Welcome " + str(player.get_surname())+".\n"
+    text += "The streamlit application support is happy to count you as a Catan settler.\nWe are looking forward to play Catan with you."
+    text += "\n\nKind regards,\nStreamlit application support."
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login(email_address, email_password)
+    server.sendmail(email_address, player.get_mail(), text)
+    server.quit()
+
 def send_game_mail(game):
     # on rentre les renseignements pris sur le site du fournisseur
     smtp_address = 'smtp.gmail.com'
@@ -100,7 +119,7 @@ def send_game_mail(game):
     # on rentre les informations sur le destinataire
     email_receiver = 'streamlitmailsender@gmail.com'
     # on crée la connexion
-    context = ssl.create_default_context()
+    # context = ssl.create_default_context()
     text = "num_players: " + str(game.get_num_players())
     text += "\nnames \t=\t" + str(game.get_names())
     text += "\nscores \t=\t" + str(game.get_scores())
@@ -116,7 +135,6 @@ def send_game_mail(game):
     text += str(game.get_to_win())+','+str(game.get_extension())+','+str(game.get_group())
 
     print(text)
-
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()

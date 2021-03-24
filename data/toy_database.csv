@@ -1,0 +1,101 @@
+num_players,names,scores,date,longest_road,largest_army,to_win,extension,group
+4,"['Lousgarcia', 'Louisgodin', 'Jeremynadal', 'Marinevialemaringe']","['1', '1', '10', '2']",2021-02-24,2,3,10,Base game,LPCM
+4,"['Melinelarrieu', 'Jeremynadal', 'Marinevialemaringe', 'Marineduret']","['1', '2', '6', '10']",2021-03-05,2,3,10,Base game,LPCM
+4,"['Marinevialemaringe', 'Marineduret', 'Jeremynadal', 'Lousgarcia']","['4', '10', '5', '8']",2021-03-11,3,1,10,Base game,LPCM
+3,"['Lousgarcia', 'Jeremynadal', 'Marineduret']","['6', '6', '10']",2021-03-02,1,2,10,Base game,LPCM
+4,"['Melinelarrieu', 'Lousgarcia', 'Marineduret', 'Louisgodin']","['7', '10', '3', '8']",2021-03-04,1,0,10,Base game,LPCM
+3,"['Lousgarcia', 'Melinelarrieu', 'Marinevialemaringe']","['10', '7', '7']",2021-03-01,2,1,10,Base game,LPCM
+3,"['Marinevialemaringe', 'Marineduret', 'Louisgodin']","['7', '10', '2']",2021-03-16,1,0,10,Base game,LPCM
+5,"['Marinevialemaringe', 'Lousgarcia', 'Marineduret', 'Jeremynadal', 'Melinelarrieu']","['10', '5', '8', '4', '6']",2021-03-11,0,2,10,Base game,LPCM
+4,"['Marineduret', 'Louisgodin', 'Lousgarcia', 'Jeremynadal']","['4', '4', '10', '6']",2021-03-01,3,2,10,Base game,LPCM
+5,"['Lousgarcia', 'Jeremynadal', 'Louisgodin', 'Melinelarrieu', 'Marinevialemaringe']","['7', '8', '10', '8', '5']",2021-03-20,2,3,10,Base game,LPCM
+4,"['Jeremynadal', 'Louisgodin', 'Lousgarcia', 'Marineduret']","['6', '10', '8', '9']",2021-03-14,2,3,10,Base game,LPCM
+5,"['Lousgarcia', 'Marinevialemaringe', 'Louisgodin', 'Marineduret', 'Jeremynadal']","['5', '10', '5', '4', '8']",2021-03-13,1,3,10,Base game,LPCM
+5,"['Marinevialemaringe', 'Louisgodin', 'Marineduret', 'Melinelarrieu', 'Lousgarcia']","['5', '8', '5', '6', '10']",2021-03-02,4,4,10,Base game,LPCM
+3,"['Marineduret', 'Lousgarcia', 'Melinelarrieu']","['10', '6', '4']",2021-03-05,1,2,10,Base game,LPCM
+5,"['Louisgodin', 'Lousgarcia', 'Marinevialemaringe', 'Jeremynadal', 'Melinelarrieu']","['10', '7', '7', '2', '5']",2021-03-16,2,1,10,Base game,LPCM
+3,"['Marineduret', 'Louisgodin', 'Marinevialemaringe']","['10', '4', '7']",2021-03-07,0,2,10,Base game,LPCM
+5,"['Lousgarcia', 'Jeremynadal', 'Marinevialemaringe', 'Louisgodin', 'Marineduret']","['1', '2', '3', '10', '2']",2021-03-18,3,1,10,Base game,LPCM
+5,"['Louisgodin', 'Marinevialemaringe', 'Jeremynadal', 'Lousgarcia', 'Melinelarrieu']","['8', '9', '5', '10', '8']",2021-03-16,0,4,10,Base game,LPCM
+5,"['Louisgodin', 'Jeremynadal', 'Marinevialemaringe', 'Marineduret', 'Lousgarcia']","['9', '7', '7', '10', '5']",2021-03-11,2,2,10,Base game,LPCM
+5,"['Louisgodin', 'Marineduret', 'Marinevialemaringe', 'Jeremynadal', 'Lousgarcia']","['5', '5', '9', '2', '10']",2021-03-01,4,2,10,Base game,LPCM
+5,"['Louisgodin', 'Jeremynadal', 'Marinevialemaringe', 'Melinelarrieu', 'Lousgarcia']","['10', '9', '4', '7', '7']",2021-03-07,1,0,10,Base game,LPCM
+3,"['Marinevialemaringe', 'Melinelarrieu', 'Louisgodin']","['8', '9', '10']",2021-03-06,1,0,10,Base game,LPCM
+4,"['Jeremynadal', 'Marineduret', 'Marinevialemaringe', 'Lousgarcia']","['8', '10', '8', '8']",2021-02-25,3,3,10,Base game,LPCM
+5,"['Melinelarrieu', 'Jeremynadal', 'Marineduret', 'Marinevialemaringe', 'Lousgarcia']","['10', '6', '4', '6', '8']",2021-02-25,1,4,10,Base game,LPCM
+3,"['Jeremynadal', 'Lousgarcia', 'Louisgodin']","['5', '10', '8']",2021-03-10,1,2,10,Base game,LPCM
+3,"['Lousgarcia', 'Marinevialemaringe', 'Jeremynadal']","['3', '10', '7']",2021-03-21,2,1,10,Base game,LPCM
+5,"['Lousgarcia', 'Melinelarrieu', 'Marinevialemaringe', 'Marineduret', 'Louisgodin']","['4', '10', '5', '5', '8']",2021-03-06,4,1,10,Base game,LPCM
+5,"['Marineduret', 'Lousgarcia', 'Marinevialemaringe', 'Louisgodin', 'Jeremynadal']","['5', '6', '7', '10', '7']",2021-03-07,1,2,10,Base game,LPCM
+4,"['Louisgodin', 'Marinevialemaringe', 'Lousgarcia', 'Melinelarrieu']","['7', '9', '7', '10']",2021-03-07,1,2,10,Base game,LPCM
+5,"['Louisgodin', 'Lousgarcia', 'Melinelarrieu', 'Marineduret', 'Marinevialemaringe']","['2', '4', '3', '10', '8']",2021-02-26,1,3,10,Base game,LPCM
+4,"['Marinevialemaringe', 'Jeremynadal', 'Melinelarrieu', 'Louisgodin']","['10', '6', '5', '9']",2021-03-05,3,0,10,Base game,LPCM
+3,"['Melinelarrieu', 'Lousgarcia', 'Jeremynadal']","['9', '8', '10']",2021-03-16,0,2,10,Base game,LPCM
+3,"['Jeremynadal', 'Marinevialemaringe', 'Marineduret']","['10', '6', '9']",2021-03-04,0,1,10,Base game,LPCM
+4,"['Jeremynadal', 'Marinevialemaringe', 'Marineduret', 'Louisgodin']","['6', '10', '7', '6']",2021-02-27,0,1,10,Base game,LPCM
+3,"['Lousgarcia', 'Melinelarrieu', 'Marinevialemaringe']","['3', '6', '10']",2021-03-13,1,2,10,Base game,LPCM
+3,"['Lousgarcia', 'Marinevialemaringe', 'Melinelarrieu']","['8', '10', '6']",2021-03-01,0,0,10,Base game,LPCM
+3,"['Jeremynadal', 'Marineduret', 'Melinelarrieu']","['8', '10', '6']",2021-03-04,1,2,10,Base game,LPCM
+3,"['Lousgarcia', 'Marinevialemaringe', 'Jeremynadal']","['7', '10', '8']",2021-03-05,0,1,10,Base game,LPCM
+5,"['Lousgarcia', 'Marineduret', 'Jeremynadal', 'Marinevialemaringe', 'Louisgodin']","['8', '9', '8', '6', '10']",2021-02-25,2,0,10,Base game,LPCM
+4,"['Marineduret', 'Lousgarcia', 'Jeremynadal', 'Marinevialemaringe']","['7', '8', '8', '10']",2021-03-16,0,0,10,Base game,LPCM
+3,"['Marinevialemaringe', 'Louisgodin', 'Jeremynadal']","['6', '10', '7']",2021-03-14,2,2,10,Base game,LPCM
+3,"['Louisgodin', 'Marinevialemaringe', 'Marineduret']","['9', '6', '10']",2021-03-10,0,2,10,Base game,LPCM
+4,"['Marinevialemaringe', 'Lousgarcia', 'Melinelarrieu', 'Louisgodin']","['6', '10', '6', '6']",2021-03-04,1,2,10,Base game,LPCM
+3,"['Lousgarcia', 'Jeremynadal', 'Louisgodin']","['10', '3', '8']",2021-03-09,2,0,10,Base game,LPCM
+5,"['Marinevialemaringe', 'Lousgarcia', 'Melinelarrieu', 'Marineduret', 'Louisgodin']","['10', '4', '6', '3', '9']",2021-03-05,4,0,10,Base game,LPCM
+5,"['Lousgarcia', 'Louisgodin', 'Marineduret', 'Melinelarrieu', 'Marinevialemaringe']","['6', '7', '8', '9', '10']",2021-03-21,2,3,10,Base game,LPCM
+5,"['Lousgarcia', 'Louisgodin', 'Marinevialemaringe', 'Marineduret', 'Jeremynadal']","['7', '10', '5', '7', '6']",2021-02-26,4,1,10,Base game,LPCM
+5,"['Jeremynadal', 'Marinevialemaringe', 'Marineduret', 'Louisgodin', 'Melinelarrieu']","['10', '7', '5', '5', '9']",2021-03-14,0,3,10,Base game,LPCM
+5,"['Melinelarrieu', 'Marinevialemaringe', 'Lousgarcia', 'Louisgodin', 'Marineduret']","['5', '8', '5', '0', '10']",2021-03-16,1,4,10,Base game,LPCM
+4,"['Louisgodin', 'Melinelarrieu', 'Jeremynadal', 'Marinevialemaringe']","['10', '3', '7', '7']",2021-03-21,2,0,10,Base game,LPCM
+3,"['Lousgarcia', 'Jeremynadal', 'Marineduret']","['6', '7', '10']",2021-03-05,2,2,10,Base game,LPCM
+3,"['Lousgarcia', 'Marineduret', 'Jeremynadal']","['6', '10', '6']",2021-03-18,1,0,10,Base game,LPCM
+4,"['Melinelarrieu', 'Marineduret', 'Lousgarcia', 'Louisgodin']","['1', '10', '5', '6']",2021-02-28,2,3,10,Base game,LPCM
+5,"['Louisgodin', 'Marineduret', 'Marinevialemaringe', 'Jeremynadal', 'Melinelarrieu']","['10', '8', '8', '7', '8']",2021-03-05,0,2,10,Base game,LPCM
+3,"['Jeremynadal', 'Marinevialemaringe', 'Marineduret']","['10', '6', '6']",2021-03-03,2,0,10,Base game,LPCM
+4,"['Louisgodin', 'Lousgarcia', 'Marineduret', 'Jeremynadal']","['10', '3', '3', '5']",2021-02-24,1,0,10,Base game,LPCM
+5,"['Lousgarcia', 'Jeremynadal', 'Marinevialemaringe', 'Louisgodin', 'Melinelarrieu']","['6', '3', '2', '10', '2']",2021-03-05,3,3,10,Base game,LPCM
+3,"['Jeremynadal', 'Marineduret', 'Louisgodin']","['9', '10', '6']",2021-03-12,2,0,10,Base game,LPCM
+3,"['Melinelarrieu', 'Lousgarcia', 'Jeremynadal']","['7', '10', '5']",2021-03-12,0,1,10,Base game,LPCM
+4,"['Lousgarcia', 'Marineduret', 'Louisgodin', 'Melinelarrieu']","['10', '7', '3', '4']",2021-03-12,1,3,10,Base game,LPCM
+5,"['Marinevialemaringe', 'Jeremynadal', 'Lousgarcia', 'Melinelarrieu', 'Marineduret']","['5', '10', '5', '3', '3']",2021-03-09,3,1,10,Base game,LPCM
+3,"['Marineduret', 'Jeremynadal', 'Melinelarrieu']","['10', '4', '9']",2021-03-14,0,0,10,Base game,LPCM
+3,"['Jeremynadal', 'Louisgodin', 'Melinelarrieu']","['10', '6', '7']",2021-03-11,0,2,10,Base game,LPCM
+5,"['Melinelarrieu', 'Louisgodin', 'Marinevialemaringe', 'Lousgarcia', 'Jeremynadal']","['10', '5', '8', '6', '4']",2021-03-13,0,0,10,Base game,LPCM
+3,"['Marinevialemaringe', 'Jeremynadal', 'Melinelarrieu']","['10', '8', '9']",2021-03-18,0,0,10,Base game,LPCM
+3,"['Louisgodin', 'Marineduret', 'Marinevialemaringe']","['10', '6', '7']",2021-02-27,2,0,10,Base game,LPCM
+5,"['Marinevialemaringe', 'Jeremynadal', 'Lousgarcia', 'Melinelarrieu', 'Marineduret']","['10', '7', '7', '8', '6']",2021-03-17,3,3,10,Base game,LPCM
+3,"['Melinelarrieu', 'Jeremynadal', 'Marineduret']","['10', '4', '4']",2021-02-25,2,0,10,Base game,LPCM
+5,"['Lousgarcia', 'Marinevialemaringe', 'Louisgodin', 'Jeremynadal', 'Marineduret']","['5', '5', '5', '4', '10']",2021-03-13,1,4,10,Base game,LPCM
+4,"['Louisgodin', 'Marineduret', 'Melinelarrieu', 'Lousgarcia']","['10', '2', '1', '3']",2021-03-16,0,0,10,Base game,LPCM
+3,"['Marineduret', 'Lousgarcia', 'Jeremynadal']","['3', '10', '7']",2021-03-04,1,1,10,Base game,LPCM
+4,"['Louisgodin', 'Melinelarrieu', 'Marinevialemaringe', 'Lousgarcia']","['10', '6', '8', '9']",2021-02-24,2,0,10,Base game,LPCM
+5,"['Lousgarcia', 'Melinelarrieu', 'Louisgodin', 'Jeremynadal', 'Marineduret']","['5', '10', '4', '5', '4']",2021-02-25,1,1,10,Base game,LPCM
+4,"['Melinelarrieu', 'Lousgarcia', 'Marinevialemaringe', 'Marineduret']","['4', '6', '10', '7']",2021-03-17,2,1,10,Base game,LPCM
+4,"['Melinelarrieu', 'Jeremynadal', 'Louisgodin', 'Marineduret']","['5', '7', '10', '5']",2021-03-14,2,1,10,Base game,LPCM
+5,"['Louisgodin', 'Melinelarrieu', 'Lousgarcia', 'Marineduret', 'Jeremynadal']","['4', '6', '2', '10', '4']",2021-02-27,1,4,10,Base game,LPCM
+5,"['Louisgodin', 'Marinevialemaringe', 'Lousgarcia', 'Melinelarrieu', 'Marineduret']","['7', '6', '8', '3', '10']",2021-02-25,4,4,10,Base game,LPCM
+4,"['Melinelarrieu', 'Louisgodin', 'Lousgarcia', 'Marineduret']","['10', '7', '6', '2']",2021-03-12,0,1,10,Base game,LPCM
+5,"['Lousgarcia', 'Louisgodin', 'Marinevialemaringe', 'Marineduret', 'Melinelarrieu']","['4', '3', '4', '10', '2']",2021-02-28,3,3,10,Base game,LPCM
+5,"['Jeremynadal', 'Marineduret', 'Marinevialemaringe', 'Melinelarrieu', 'Lousgarcia']","['8', '10', '4', '2', '5']",2021-03-08,2,1,10,Base game,LPCM
+4,"['Jeremynadal', 'Melinelarrieu', 'Marineduret', 'Louisgodin']","['10', '8', '5', '6']",2021-03-10,0,3,10,Base game,LPCM
+5,"['Louisgodin', 'Marineduret', 'Jeremynadal', 'Melinelarrieu', 'Marinevialemaringe']","['6', '0', '10', '5', '5']",2021-03-07,3,2,10,Base game,LPCM
+5,"['Louisgodin', 'Marineduret', 'Melinelarrieu', 'Jeremynadal', 'Lousgarcia']","['1', '10', '0', '6', '3']",2021-03-07,1,1,10,Base game,LPCM
+4,"['Marineduret', 'Melinelarrieu', 'Louisgodin', 'Marinevialemaringe']","['5', '5', '10', '6']",2021-03-05,0,1,10,Base game,LPCM
+3,"['Marineduret', 'Melinelarrieu', 'Jeremynadal']","['10', '8', '7']",2021-03-20,0,2,10,Base game,LPCM
+4,"['Melinelarrieu', 'Lousgarcia', 'Marinevialemaringe', 'Marineduret']","['10', '4', '5', '5']",2021-03-07,3,2,10,Base game,LPCM
+5,"['Marinevialemaringe', 'Lousgarcia', 'Louisgodin', 'Marineduret', 'Jeremynadal']","['7', '10', '6', '6', '9']",2021-02-24,0,4,10,Base game,LPCM
+4,"['Marinevialemaringe', 'Marineduret', 'Jeremynadal', 'Melinelarrieu']","['10', '5', '2', '7']",2021-02-24,1,2,10,Base game,LPCM
+4,"['Lousgarcia', 'Melinelarrieu', 'Jeremynadal', 'Marineduret']","['6', '8', '9', '10']",2021-03-01,0,3,10,Base game,LPCM
+4,"['Louisgodin', 'Marineduret', 'Marinevialemaringe', 'Jeremynadal']","['9', '10', '7', '8']",2021-03-14,2,2,10,Base game,LPCM
+3,"['Louisgodin', 'Jeremynadal', 'Lousgarcia']","['8', '3', '10']",2021-03-15,2,0,10,Base game,LPCM
+3,"['Lousgarcia', 'Marineduret', 'Melinelarrieu']","['6', '6', '10']",2021-02-24,0,2,10,Base game,LPCM
+4,"['Marinevialemaringe', 'Lousgarcia', 'Jeremynadal', 'Marineduret']","['4', '7', '10', '7']",2021-03-09,1,3,10,Base game,LPCM
+3,"['Jeremynadal', 'Louisgodin', 'Melinelarrieu']","['5', '7', '10']",2021-03-16,2,1,10,Base game,LPCM
+3,"['Marinevialemaringe', 'Marineduret', 'Louisgodin']","['10', '9', '2']",2021-03-09,0,1,10,Base game,LPCM
+5,"['Jeremynadal', 'Louisgodin', 'Marineduret', 'Melinelarrieu', 'Lousgarcia']","['7', '5', '3', '10', '5']",2021-03-13,3,0,10,Base game,LPCM
+5,"['Jeremynadal', 'Marineduret', 'Louisgodin', 'Melinelarrieu', 'Marinevialemaringe']","['10', '7', '9', '9', '5']",2021-02-27,3,3,10,Base game,LPCM
+3,"['Marineduret', 'Melinelarrieu', 'Lousgarcia']","['7', '10', '7']",2021-03-19,1,0,10,Base game,LPCM
+3,"['Marineduret', 'Marinevialemaringe', 'Louisgodin']","['6', '10', '9']",2021-03-14,1,2,10,Base game,LPCM
+4,"['Jeremynadal', 'Marinevialemaringe', 'Marineduret', 'Lousgarcia']","['10', '7', '9', '7']",2021-02-25,3,0,10,Base game,LPCM

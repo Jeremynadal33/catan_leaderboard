@@ -132,7 +132,6 @@ def menu_leaderboard(state):
     st.header("This is the leaderboard page")
     st.subheader("Here you can view in depth statistics on the loaded games")
     if np.any(state.games):
-        print('aya')
         st.subheader('Total number of games : {}'.format(state.games.shape[0]))
     try:
         if state.players_df != None:
@@ -143,7 +142,7 @@ def menu_leaderboard(state):
         if not state.players_df.empty :
             display_leaderboard(state)
         else:
-            st.write('Please, load a csv file first.')
+            st.write('Please, load a csv file or add new games first.')
 
 def menu_players(state):
     temp = None
@@ -173,7 +172,7 @@ def menu_players(state):
             mail = st.text_input("Mail adress",value = "", max_chars=20)
             player = Player(surname, first_name, last_name, mail)
 
-        cols = st.beta_columns([1,1,1])
+        cols = st.beta_columns([3,1,1])
 
         with cols[0]:
             if np.all(state.players_info) != None and os.path.exists(state.player_path):
@@ -182,9 +181,12 @@ def menu_players(state):
                         st.error("Surname must be unique and not null. Please choose another one.")
                     elif player.get_mail() in list(state.players_info['mail']) or player.get_mail()=="" or player.get_mail()==" ":
                         st.error("Mail must be unique and not null. Please choose another one.")
+                    elif not re.match('[^@]+@[^@]+\.[^@]+',player.get_mail()):
+                        st.error("Mail looks invalid, if it is not, please contact streamlitmailsender@gmail.com")
                     else:
                         temp = add_player(state.players_info, player, state.player_path )
                         st.warning("Sucessfully added {} to the players database".format(player.get_surname()))
+    time.sleep(1)
     if np.all(temp) :
         state.players_info = temp
 
@@ -252,6 +254,8 @@ def add_game(state):
 
     state.games = games
     state.players = players
+    state.players_df = get_players_dataframe(state.players)
+
 
 def menu_home(state):
     games = pd.DataFrame()
@@ -259,7 +263,6 @@ def menu_home(state):
     # Home page : presentation, loading available, display of the loaded .csv and quick display of the leaderboard
     st.markdown("Welcome to this _easy to use_ Catan leaderboard. ")
     st.markdown("Here you can load your own Catan games and see, amongst your friends who is the best settler.")
-
     with st.beta_expander("Warning: constraints on the .csv file"):
         st.warning("The .csv file must have the following columns :\n[num_players,names,scores,date,longest_road,largest_army,to_win,extension]")
     csv = st.file_uploader('Upload your .csv file', type = ['csv'])
@@ -278,24 +281,24 @@ def menu_home(state):
         state.players = players
         state.players_df = get_players_dataframe(state.players)
 
-    # If one wants to use the existing .csv
-    if state.db_path:
-        col1, col2, col3  = st.beta_columns(3)
-        with col1:
-            pass
-        with col3:
-            pass
-        with col2 :
-            if st.button("Use database's .csv"):
-                home = True
-
-    if home :
-        games = get_data(path = state.db_path)
-        games, players = reform_arrays(games)
-        players = update_players_from_db(players, games)
-
-        state.games = games
-        state.players = players
+    # # If one wants to use the existing .csv
+    # if state.db_path:
+    #     col1, col2, col3  = st.beta_columns(3)
+    #     with col1:
+    #         pass
+    #     with col3:
+    #         pass
+    #     with col2 :
+    #         if st.button("Use database's .csv"):
+    #             home = True
+    #
+    # if home :
+    #     games = get_data(path = state.db_path)
+    #     games, players = reform_arrays(games)
+    #     players = update_players_from_db(players, games)
+    #
+    #     state.games = games
+    #     state.players = players
 
     if np.all(state.games) != None :
         with st.beta_expander("See .csv file"):
@@ -305,7 +308,10 @@ def menu_home(state):
         state.players_df = get_players_dataframe(state.players)
 
     if np.all(state.games) != None :
-        st.plotly_chart(state.games.groupby('date').size().to_frame(name='Number of games').plot(title='Number of games per day').update_layout(xaxis_title='Number of games'))
+        if not state.games.empty :
+            st.plotly_chart(state.games.groupby('date').size().to_frame(name='Number of games').plot(title='Number of games per day').update_layout(xaxis_title='Number of games'))
+
+    st.info("This is an ongoing project, if you have any idea on how to improve it, feel free to contact us at streamlitmailsender@gmail.com")
 
 
 def main():
