@@ -37,6 +37,12 @@ class Player:
         return self.total_points
     def get_surname(self):
         return self.surname
+    def get_mail(self):
+        return self.mail
+    def get_first_name(self):
+        return self.first_name
+    def get_last_name(self):
+        return self.last_name
 
     def display(self):
         assert self.num_games != 0, 'Update players before display'
@@ -54,9 +60,9 @@ class Player:
 
 
 class Game:
-    def __init__(self, num_player, names, scores, date, longest_road, largest_army, to_win = 10, extension = None):
-        assert len(names)==num_player, 'Error, number of players doesnot correspond to names'
-        self.num_player = num_player
+    def __init__(self, num_players, names, scores, date, longest_road, largest_army, to_win = 10, extension = None, group = None):
+        assert len(names)==num_players, 'Error, number of players doesnot correspond to names'
+        self.num_players = num_players
         self.scores = scores
         self.names = names
         self.date = date
@@ -64,11 +70,31 @@ class Game:
         self.largest_army = largest_army
         self.to_win = to_win
         self.extension = extension
+        self.group = group
 
     def display_game(self):
-        print('This game was played on the {} and featured {} persons : '.format(self.date,self.num_player), self.names)
+        print('This game was played on the {} and featured {} persons : '.format(self.date,self.num_players), self.names)
         print('{} had longest road and {} had largest army.'.format(self.names[self.longest_road], self.names[self.largest_army]))
         print('{} won with {} points'.format(self.names[np.argmax(self.scores)], np.max(self.scores)))
 
     def get_game(self):
-        return self.num_player, self.names, self.scores, self.date, self.longest_road, self.largest_army, self.to_win, self.extension
+        return self.num_players, self.names, self.scores, self.date, self.longest_road, self.largest_army, self.to_win, self.extension
+
+    def get_num_players(self):
+        return self.num_players
+    def get_names(self):
+        return self.names
+    def get_scores(self):
+        return self.scores
+    def get_date(self):
+        return self.date
+    def get_longest_road(self):
+        return self.longest_road
+    def get_largest_army(self):
+        return self.largest_army
+    def get_to_win(self):
+        return self.to_win
+    def get_extension(self):
+        return self.extension
+    def get_group(self):
+        return self.group

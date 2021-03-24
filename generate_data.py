@@ -19,23 +19,23 @@ def random_date(start_date=None, end_date=None):
 players = ['Jeremynadal', 'Lousgarcia', 'Marinevialemaringe', 'Marineduret', 'Melinelarrieu', 'Louisgodin']
 
 to_win = 10
-data = pd.DataFrame(columns = ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension'])
+data = pd.DataFrame(columns = ['num_players', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group'])
 for i in range(100):
-    num_player = np.random.randint(3,6)
+    num_players = np.random.randint(3,6)
     names = []
-    scores = np.zeros(num_player)
+    scores = np.zeros(num_players)
     #Randomly select player names
-    while(len(names)<num_player):
+    while(len(names)<num_players):
         name = np.random.choice(players)
         if name not in names : names.append(name)
     #Randomly choose who gets longest_road and largest_army
-    longest_road = np.random.randint(num_player)
-    largest_army = np.random.randint(num_player)
+    longest_road = np.random.randint(num_players)
+    largest_army = np.random.randint(num_players)
     scores[longest_road] += 2
     scores[largest_army] += 2
     #Randomly put scores
     while (np.all(scores<10)):
-        scores[ np.random.randint(num_player) ] += 1
-    game = Game( num_player, names, scores, random_date(), longest_road, largest_army)
+        scores[ np.random.randint(num_players) ] += 1
+    game = Game( num_players, names, scores, random_date(), longest_road, largest_army)
     data.loc[i] = list(game.get_game())
 data.to_csv('/Users/jeremynadal/Documents/catan_winners/database.csv', index = False)

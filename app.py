@@ -18,6 +18,7 @@ except ModuleNotFoundError:
     from streamlit.server.server import Server
 
 home_path = ["/Users/jeremynadal/Documents/catan_winners/data/database.csv","/home/ubuntu/catan_leaderboard/data/database.csv"]
+player_path = ["/Users/jeremynadal/Documents/catan_winners/data/players.csv","/home/ubuntu/catan_leaderboard/data/players.csv"]
 
 pd.options.plotting.backend = "plotly"
 ###################### FUNCTIONS #################
@@ -25,7 +26,7 @@ pd.options.plotting.backend = "plotly"
 def get_data(path):
     try:
         data = pd.read_csv(path)
-        assert np.all(data.columns == ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']), "Columns of the .csv file must be : ['num_player', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']"
+        assert np.all(data.columns == ['num_players', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']), "Columns of the .csv file must be : ['num_players', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']"
         data['extension'] = data['extension'].fillna('Base game')
         return data
     except Exception as e:
@@ -130,6 +131,9 @@ def display_leaderboard(state):
 def menu_leaderboard(state):
     st.header("This is the leaderboard page")
     st.subheader("Here you can view in depth statistics on the loaded games")
+    if np.any(state.games):
+        print('aya')
+        st.subheader('Total number of games : {}'.format(state.games.shape[0]))
     try:
         if state.players_df != None:
             display_leaderboard(state)
@@ -142,9 +146,10 @@ def menu_leaderboard(state):
             st.write('Please, load a csv file first.')
 
 def menu_players(state):
+    temp = None
     st.header("This is the players' page")
     st.subheader("Here you can view statistics on a selected player or add a new player")
-
+    st.write('This page is currently on the making')
     cols = st.beta_columns([1,1,1])
 
     if state.players != None:
@@ -157,11 +162,39 @@ def menu_players(state):
     st.write("#")
     st.write("#")
     with st.beta_expander("Add new player"):
-        st.write("Not available for the moment")
+        st.subheader('Here you can add a new player. Each surname and mail adress must be unique.')
+
+        cols = st.beta_columns([2,1])
+        with cols[0]:
+            st.subheader("The surname is what will be displayed on the app.")
+            surname = st.text_input("Surname",value = "", max_chars=30)
+            first_name = st.text_input("First name",value = "", max_chars=20)
+            last_name = st.text_input("Last name",value = "", max_chars=20)
+            mail = st.text_input("Mail adress",value = "", max_chars=20)
+            player = Player(surname, first_name, last_name, mail)
+
+        cols = st.beta_columns([1,1,1])
+
+        with cols[0]:
+            if np.all(state.players_info) != None and os.path.exists(state.player_path):
+                if st.button("Save"):
+                    if player.get_surname() in list(state.players_info['surname']) or player.get_surname()=="" or player.get_surname()==" ":
+                        st.error("Surname must be unique and not null. Please choose another one.")
+                    elif player.get_mail() in list(state.players_info['mail']) or player.get_mail()=="" or player.get_mail()==" ":
+                        st.error("Mail must be unique and not null. Please choose another one.")
+                    else:
+                        temp = add_player(state.players_info, player, state.player_path )
+                        st.warning("Sucessfully added {} to the players database".format(player.get_surname()))
+    if np.all(temp) :
+        state.players_info = temp
+
     with st.beta_expander("Warning"):
         st.warning("Each player must have its own surname and mail adress")
 
 def add_game(state):
+    temp = False
+    longest = ""
+    largest = ""
     st.header("This is the add game page")
     st.subheader("Here you can add games")
     with st.beta_expander("Warning"):
@@ -173,32 +206,52 @@ def add_game(state):
     with cols[1]:
         game_date = st.date_input('Date', date.today() )
         to_win = st.number_input('Number of points to win',7,20,10)
+    with cols[2]:
+        group = st.text_input("Group:","")
 
     cols = st.beta_columns([1,1,1])
     names = []
     scores = []
     with cols[0]:
         for player in range(num_persons):
-            if state.players != None:
-                names.append(st.selectbox(f"Player {player+1}:",['']+list(state.players.keys())))
+            if np.all(state.players_info) != None:
+                names.append(st.selectbox(f"Player {player+1}:",['']+[surname for surname in list(state.players_info['surname']) if surname not in names]))
             else:
-                names.append(st.text_input(f"Player {player+1}:",max_chars = 30, help="test"))
+                names.append(st.text_input(f"Player {player+1}:",max_chars = 30))
     with cols[1] :
         for player in range(num_persons):
-            scores.append(st.number_input(f"Score {player+1}:",0,to_win,0 ))
+            scores.append(st.number_input(f"Score {player+1}:",0,to_win+1,0 ))
+
 
     if names[0] != "":
         longest = st.selectbox("Longest road", names+[''])
         largest = st.selectbox("Largest army", names+[''])
 
-    #cols = st.beta_columns([1,1,1])
-    #with cols[1]:
-    if st.button("Save"):
-        st.write('Unavailable for the moment')
-        save_game()
+    game = Game(num_players = num_persons, names = names,
+                scores = scores , date = game_date,
+                longest_road = names.index(longest), largest_army = names.index(largest),
+                to_win = to_win, extension = extension,
+                group = group)
 
-def save_game():
-    pass
+    if st.button("Save"):
+        if not ( np.any(np.array(game.get_scores()) >= game.get_to_win()) ) :
+            st.error("No one won yet")
+        elif sorted(scores)[-1] == sorted(scores)[-2]:
+            st.error("A player must have more points than all others.")
+        elif not np.all([False for name in names if name == ""]):
+            st.error("Name(s) is(are) missing")
+        else:
+            st.info("Sucessfully added game to database")
+            save_game(state.games, game, state.db_path)
+
+    time.sleep(1)
+
+    games = get_data(path = state.db_path)
+    games, players = reform_arrays(games)
+    players = update_players_from_db(players, games)
+
+    state.games = games
+    state.players = players
 
 def menu_home(state):
     games = pd.DataFrame()
@@ -208,7 +261,7 @@ def menu_home(state):
     st.markdown("Here you can load your own Catan games and see, amongst your friends who is the best settler.")
 
     with st.beta_expander("Warning: constraints on the .csv file"):
-        st.warning("The .csv file must have the following columns :\n[num_player,names,scores,date,longest_road,largest_army,to_win,extension]")
+        st.warning("The .csv file must have the following columns :\n[num_players,names,scores,date,longest_road,largest_army,to_win,extension]")
     csv = st.file_uploader('Upload your .csv file', type = ['csv'])
     # if file is uploaded
     if csv is not None:
@@ -223,6 +276,7 @@ def menu_home(state):
 
         state.games = games
         state.players = players
+        state.players_df = get_players_dataframe(state.players)
 
     # If one wants to use the existing .csv
     if state.db_path:
@@ -259,7 +313,17 @@ def main():
     for path in home_path:
         if os.path.exists(path):
             state.db_path = path
-    print('{} exists'.format(state.db_path))
+            games = get_data(path = state.db_path)
+            games, players = reform_arrays(games)
+            players = update_players_from_db(players, games)
+            state.games = games
+            state.players = players
+    for path in player_path:
+        if os.path.exists(path):
+            state.player_path = path
+            state.players_info = pd.read_csv(path)
+
+    #print('{} exists'.format(state.db_path))
     st.title("Catan winners : let's see who is the best settler")
     possibilities = ["Home", "Leaderboard", "Players", "Add game"]
     choice = st.sidebar.selectbox("Menu",possibilities)
