@@ -169,7 +169,7 @@ def menu_players(state):
             surname = st.text_input("Surname",value = "", max_chars=30)
             first_name = st.text_input("First name",value = "", max_chars=20)
             last_name = st.text_input("Last name",value = "", max_chars=20)
-            mail = st.text_input("Mail adress",value = "", max_chars=20)
+            mail = st.text_input("Mail adress",value = "", max_chars=40)
             player = Player(surname, first_name, last_name, mail)
 
         cols = st.beta_columns([3,1,1])
@@ -264,7 +264,7 @@ def menu_home(state):
     st.markdown("Welcome to this _easy to use_ Catan leaderboard. ")
     st.markdown("Here you can load your own Catan games and see, amongst your friends who is the best settler.")
     with st.beta_expander("Warning: constraints on the .csv file"):
-        st.warning("The .csv file must have the following columns :\n[num_players,names,scores,date,longest_road,largest_army,to_win,extension]")
+        st.warning("The .csv file must have the following columns :\n[num_players,names,scores,date,longest_road,largest_army,to_win,extension,group]")
     csv = st.file_uploader('Upload your .csv file', type = ['csv'])
     # if file is uploaded
     if csv is not None:
