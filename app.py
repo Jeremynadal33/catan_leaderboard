@@ -329,7 +329,6 @@ def main():
             state.player_path = path
             state.players_info = pd.read_csv(path)
 
-    #print('{} exists'.format(state.db_path))
     st.title("Catan winners : let's see who is the best settler")
     possibilities = ["Home", "Leaderboard", "Players", "Add game"]
     choice = st.sidebar.selectbox("Menu",possibilities)

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import re
 import smtplib, ssl
-
+from email.message import EmailMessage
 from classes import *
 
 def reform_arrays(df):
@@ -21,6 +21,22 @@ def reform_arrays(df):
     df['names'] = names
     df['scores'] = scores
     return df, unique_names
+
+
+def send_mail(to_address, subject, text):
+    msg = EmailMessage()
+    msg.set_content(text)
+
+    msg['Subject'] = subject
+    msg['From'] = "streamlitmailsender@gmail.com"
+    msg['To'] = to_address
+
+    # Send the message via our own SMTP server.
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.login("streamlitmailsender@gmail.com", "sEzju1-zoqcex-wuzjyj")
+    server.send_message(msg)
+    server.quit()
+
 
 
 def create_players(path='home'):
@@ -93,33 +109,26 @@ def save_game(df_games, game, path):
     return True
 
 def send_welcome_email(player):
-    smtp_address = 'smtp.gmail.com'
-    smtp_port = 465
-    # on rentre les informations sur notre adresse e-mail
-    email_address = 'streamlitmailsender@gmail.com'
-    email_password = 'sEzju1-zoqcex-wuzjyj'
-
     text = "Welcome " + str(player.get_surname())+".\n"
     text += "The streamlit application support is happy to count you as a Catan settler.\nWe are looking forward to play Catan with you."
     text += "\n\nKind regards,\nStreamlit application support."
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.login(email_address, email_password)
-    server.sendmail(email_address, player.get_mail(), text)
-    server.quit()
+
+    send_mail(to_address = player.get_mail(), subject='Welcome to Catan Leaderboard', text= text)
+
+    text = "There is a new Catan player\n"
+    text += "first_name \t" + str(player.get_first_name()) + "\n"
+    text += "last_name \t" + str(player.get_last_name()) + "\n"
+    text += "surname \t" + str(player.get_surname()) + "\n"
+    text += "mail \t" + str(player.get_mail()) + "\n"
+
+    text += "TO APPEND \n\n "
+    text += str(player.get_first_name())+','+str(player.get_last_name())+','
+    text += str(player.get_surname())+','+ str(player.get_mail())
+    send_mail(to_address = "streamlitmailsender@gmail.com", subject='New player', text= text)
+
 
 def send_game_mail(game):
-    # on rentre les renseignements pris sur le site du fournisseur
-    smtp_address = 'smtp.gmail.com'
-    smtp_port = 465
-    # on rentre les informations sur notre adresse e-mail
-    email_address = 'streamlitmailsender@gmail.com'
-    email_password = 'sEzju1-zoqcex-wuzjyj'
-    # on rentre les informations sur le destinataire
-    email_receiver = 'streamlitmailsender@gmail.com'
-    # on crée la connexion
-    # context = ssl.create_default_context()
+
     text = "num_players: " + str(game.get_num_players())
     text += "\nnames \t=\t" + str(game.get_names())
     text += "\nscores \t=\t" + str(game.get_scores())
@@ -134,20 +143,8 @@ def send_game_mail(game):
     text += str(game.get_date())+','+str(game.get_longest_road())+','+str(game.get_largest_army())+','
     text += str(game.get_to_win())+','+str(game.get_extension())+','+str(game.get_group())
 
-    print(text)
+    send_mail(to_address = 'streamlitmailsender@gmail.com', subject='New game', text= text)
 
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.login(email_address, email_password)
-    server.sendmail(email_address, email_receiver, text)
-    server.quit()
-    # with smtplib.SMTP_SSL(smtp_address, smtp_port, context=context) as server:
-    #     # connexion au compte
-    #     server.login(email_address, email_password)
-    #     # envoi du mail
-    #
-    #     server.sendmail(email_address, email_receiver, text)
 
 if __name__ == '__main__':
     import datetime
