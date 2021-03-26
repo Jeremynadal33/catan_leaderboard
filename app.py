@@ -116,17 +116,17 @@ def display_leaderboard(state):
         num_display = st.number_input('Display:',1,state.players_df.shape[0],3)
 # 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army'
     if choice == 'Number of wins':
-        to_display = state.players_df.sort_values('Number of wins', ascending=False)
+        to_display = state.players_df.sort_values(['Number of wins','Avg number of points'], ascending=False)
         to_display = to_display[['Surname', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Avg number of points', 'Winning rate']][:num_display]
         st.dataframe(to_display.assign(hack='').set_index('hack'))
     elif choice == 'Winning rate':
-        st.dataframe(state.players_df.sort_values('Winning rate', ascending=False)[['Surname',  'Winning rate', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Avg number of points']][:num_display].assign(hack='').set_index('hack'))
+        st.dataframe(state.players_df.sort_values(['Winning rate', 'Avg number of points'], ascending=False)[['Surname',  'Winning rate', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Avg number of points']][:num_display].assign(hack='').set_index('hack'))
     elif choice == 'Average number of points':
-        st.dataframe(state.players_df.sort_values('Avg number of points', ascending=False)[['Surname', 'Avg number of points', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
+        st.dataframe(state.players_df.sort_values(['Avg number of points','Winning rate'], ascending=False)[['Surname', 'Avg number of points', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
     elif choice == 'Number of largest army':
-        st.dataframe(state.players_df.sort_values('Num. largest army', ascending=False)[['Surname', 'Num. largest army','Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
+        st.dataframe(state.players_df.sort_values(['Num. largest army','Winning rate'], ascending=False)[['Surname', 'Num. largest army','Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
     elif choice == 'Number of longest road':
-        st.dataframe(state.players_df.sort_values('Num. longest road', ascending=False)[['Surname',  'Num. longest road', 'Number of wins', 'Total games', 'Total of points', 'Num. largest army', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
+        st.dataframe(state.players_df.sort_values(['Num. longest road','Winning rate'], ascending=False)[['Surname',  'Num. longest road', 'Number of wins', 'Total games', 'Total of points', 'Num. largest army', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
 
 def menu_leaderboard(state):
     st.header("This is the leaderboard page")
