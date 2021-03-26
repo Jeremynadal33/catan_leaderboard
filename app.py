@@ -226,12 +226,23 @@ def add_game(state):
 
 
     if names[0] != "":
-        longest = st.selectbox("Longest road", names+[''])
-        largest = st.selectbox("Largest army", names+[''])
+        longest = st.selectbox("Longest road", ['']+names)
+        largest = st.selectbox("Largest army", ['']+names)
+
+    if longest == '':
+        longest = None
+    else :
+        longest = names.index(longest)
+
+
+    if largest == '':
+        largest = None
+    else:
+        largest = names.index(largest)
 
     game = Game(num_players = num_persons, names = names,
                 scores = scores , date = game_date,
-                longest_road = names.index(longest), largest_army = names.index(largest),
+                longest_road = longest , largest_army = largest ,
                 to_win = to_win, extension = extension,
                 group = group)
 

@@ -57,8 +57,6 @@ class Player:
                 'Num. longest road': self.num_longest,
                 'Num. largest army': self.num_largest}
 
-
-
 class Game:
     def __init__(self, num_players, names, scores, date, longest_road, largest_army, to_win = 10, extension = None, group = None):
         assert len(names)==num_players, 'Error, number of players doesnot correspond to names'

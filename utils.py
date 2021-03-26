@@ -60,9 +60,9 @@ def update_players_from_db(players, games):
             players[games['names'][ind][player]].add_game()
             players[games['names'][ind][player]].add_points( int(games['scores'][ind][player]) )
         longest = games['longest_road'][ind]
-        players[games['names'][ind][longest]].add_longest()
+        if longest==longest : players[games['names'][ind][longest]].add_longest()
         largest = games['longest_road'][ind]
-        players[games['names'][ind][largest]].add_largest()
+        if largest==largest : players[games['names'][ind][largest]].add_largest()
         won = np.argmax(games['scores'][ind])
         players[games['names'][ind][won]].add_win()
 
@@ -125,7 +125,6 @@ def send_welcome_email(player):
     text += str(player.get_first_name())+','+str(player.get_last_name())+','
     text += str(player.get_surname())+','+ str(player.get_mail())
     send_mail(to_address = "streamlitmailsender@gmail.com", subject='New player', text= text)
-
 
 def send_game_mail(game):
 
