@@ -232,13 +232,13 @@ def add_game(state):
     if longest == '':
         longest = None
     else :
-        longest = names.index(longest)
+        longest = int(names.index(longest))
 
 
     if largest == '':
         largest = None
     else:
-        largest = names.index(largest)
+        largest = int(names.index(largest))
 
     game = Game(num_players = num_persons, names = names,
                 scores = scores , date = game_date,

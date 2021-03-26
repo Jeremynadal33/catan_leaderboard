@@ -63,7 +63,13 @@ def update_players_from_db(players, games):
         if longest==longest : players[games['names'][ind][longest]].add_longest()
         largest = games['longest_road'][ind]
         if largest==largest : players[games['names'][ind][largest]].add_largest()
-        won = np.argmax(games['scores'][ind])
+        scores = [int(score) for score in games['scores'][ind]]
+        #won = np.argmax(games['scores'][ind])
+        won = np.argmax(scores)
+        print(games['scores'][ind])
+        print(won)
+        for player in players : print(players[player].get_surname())
+        print(players[games['names'][ind][won]].get_surname())
         players[games['names'][ind][won]].add_win()
 
     return players
