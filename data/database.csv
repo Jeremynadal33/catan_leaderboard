@@ -1,2 +1,13 @@
 num_players,names,scores,date,longest_road,largest_army,to_win,extension,group
-6,"['Domaxime', 'Bloody', 'Garc l’invicible', 'MEULS', 'JeanMichelDenis', 'LadureLooser']","[7, 10, 6, 7, 8, 9]",2021-03-26,1,,10,Base game,
+6,"['Domaxime', 'Bloody', 'Garcl’invicible', 'MEULS', 'JeanMichelDenis', 'LadureLooser']","['7', '10', '6', '7', '8', '9']",2021-03-26,1,,10,Base game,LPMC
+3,"['LadureLooser', 'Maringe', 'JeanMichelDenis']","['10', '7', '5']",2021-03-26,0,1.0,10,Base game,LPMC
+4,"['Garcl’invicible', 'LadureLooser', 'Maringe', 'JeanMichelDenis']","['8', '10', '9', '8']",2021-03-26,0,2.0,10,Base game,LPMC
+6,"['MEULS', 'LadureLooser', 'JeanMichelDenis', 'Motte', 'Franklin', 'Maringe']","['5', '8', '10', '7', '6', '5']",2021-03-28,2,4.0,10,Base game,LPMC
+4,"['Garcl’invicible', 'LadureLooser', 'JeanMichelDenis', 'MEULS']","['10', '8', '5', '9']",2021-03-31,0,3.0,10,Base game,LPMC
+3,"['Garcl’invicible', 'JeanMichelDenis', 'MEULS']","['10', '7', '6']",2021-03-31,0,0.0,10,Base game,LPMC
+3,"['LadureLooser', 'JeanMichelDenis', 'MEULS']","['10', '8', '5']",2021-04-01,1,0.0,10,Base game,LPMC
+3,"['LadureLooser', 'JeanMichelDenis', 'MEULS']","['6', '8', '10']",2021-04-01,2,2.0,10,Base game,LPMC
+4,"['MEULS', 'LadureLooser', 'Maringe', 'JeanMichelDenis']","['6', '5', '10', '7']",2021-03-12,3,2.0,10,Base game,LPMC
+6,"['MEULS', 'LadureLooser', 'Maringe', 'JeanMichelDenis', 'GODS', 'Garcl’invicible']","['8', '6', '4', '5', '7', '10']",2021-03-12,5,5.0,10,Base game,LPMC
+4,"['MEULS', 'LadureLooser', 'Maringe', 'JeanMichelDenis']","['9', '9', '7', '10']",2021-03-13,1,0.0,10,Base game,LPMC
+4,"['MEULS', 'LadureLooser', 'Maringe', 'JeanMichelDenis']","[8, 9, 10, 8]",2021-03-17,,,10,Base game,LPMC

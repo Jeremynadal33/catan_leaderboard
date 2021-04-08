@@ -3,6 +3,7 @@ import streamlit as st
 import numpy as np
 import time
 from datetime import date
+import datetime
 import os
 
 from streamlit.hashing import _CodeHasher
@@ -28,6 +29,7 @@ def get_data(path):
         data = pd.read_csv(path)
         assert np.all(data.columns == ['num_players', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']), "Columns of the .csv file must be : ['num_players', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']"
         data['extension'] = data['extension'].fillna('Base game')
+        data = data.drop_duplicates()
         return data
     except Exception as e:
         pass
@@ -343,6 +345,14 @@ def main():
     st.title("Catan winners : let's see who is the best settler")
     possibilities = ["Home", "Leaderboard", "Players", "Add game"]
     choice = st.sidebar.selectbox("Menu",possibilities)
+
+    t = datetime.datetime.fromtimestamp(time.time())
+
+    if (t.hour, t.minute)==(23,58):
+        print('its time')
+        send_daily_mail(state.games)
+    else :
+        print('no')
 
     if choice == 'Home':
         menu_home(state)

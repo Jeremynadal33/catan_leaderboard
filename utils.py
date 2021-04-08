@@ -38,6 +38,12 @@ def send_mail(to_address, subject, text):
     server.quit()
 
 
+def send_daily_mail(games):
+    print('in daily mail')
+    player = Player(surname= 'JMD', first_name = 'Jerem', last_name = 'Nadal', mail = 'jjjnadal33@gmail.com')
+    send_welcome_email(player)
+
+
 
 def create_players(path='home'):
     dico = {}
@@ -60,9 +66,9 @@ def update_players_from_db(players, games):
             players[games['names'][ind][player]].add_game()
             players[games['names'][ind][player]].add_points( int(games['scores'][ind][player]) )
         longest = games['longest_road'][ind]
-        if longest==longest : players[games['names'][ind][longest]].add_longest()
+        if longest==longest : players[games['names'][ind][int(longest)]].add_longest()
         largest = games['longest_road'][ind]
-        if largest==largest : players[games['names'][ind][largest]].add_largest()
+        if largest==largest : players[games['names'][ind][int(largest)]].add_largest()
         scores = [int(score) for score in games['scores'][ind]]
         won = np.argmax(scores)
         players[games['names'][ind][won]].add_win()
@@ -111,7 +117,7 @@ def save_game(df_games, game, path):
 
 def send_welcome_email(player):
     text = "Welcome " + str(player.get_surname())+".\n"
-    text += "The streamlit application support is happy to count you as a Catan settler.\nWe are looking forward to play Catan with you."
+    text += "The streamlit application support is happy to count you as a Catan settler.\nWe are looking forward to play Catan with you. You can add games at the following address : http://52.47.40.217:8501"
     text += "\n\nKind regards,\nStreamlit application support."
 
     send_mail(to_address = player.get_mail(), subject='Welcome to Catan Leaderboard', text= text)
@@ -147,28 +153,7 @@ def send_game_mail(game):
 
 
 if __name__ == '__main__':
-    import datetime
-    data = pd.read_csv("/Users/jeremynadal/Documents/catan_winners/data/database.csv")
-    assert np.all(data.columns == ['num_players', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']), "Columns of the .csv file must be : ['num_players', 'names', 'scores', 'date', 'longest_road', 'largest_army', 'to_win', 'extension','group']"
-    data['extension'] = data['extension'].fillna('Base game')
 
-    data, players = reform_arrays(data)
-    # players = create_players()
-    # print(players)
-    print(data)
-    players = update_players_from_db(players, data)
-    print(players)
 
-    print(type(players))
-    print(players.values())
-    game = Game(num_players=3, names=['a','b','c'], scores=[1,1,1], date=datetime.date(2021, 3, 22), longest_road=1, largest_army=1, to_win = 10, extension = 'Base game', group = 'LPMC')
-    send_game_mail(game)
-    # test = []
-    # for key, value in players.items():
-    #     test.append(value)
-    #     print(value.display())
-    # print('_________________________________________')
-    # test.sort(key=lambda x: x.get_win()/x.get_num_games(), reverse=True)
-    # print(test)
-    # for t in test :
-    #     print(t.display())
+    player = Player(surname= 'JMD', first_name = 'Jerem', last_name = 'Nadal', mail = 'jjjnadal33@gmail.com')
+    send_welcome_email(player)
