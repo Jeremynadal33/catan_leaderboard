@@ -116,19 +116,33 @@ def display_leaderboard(state):
         choice = st.selectbox('Sort by:',['Number of wins', 'Winning rate' ,'Average number of points', 'Number of largest army', 'Number of longest road'])
     with cols[1]:
         num_display = st.number_input('Display:',1,state.players_df.shape[0],3)
+    with cols[2]:
+        groups = ['All']
+        for g in state.games['group'].unique():
+            if g==g : groups.append(g)
+        group = st.selectbox("Group : ", groups)
+
+    if group != 'All':
+        games = state.games[state.games['group']==group]
+        players = get_players_from_subset_games(games)
+        
+        players = update_players_from_db(players, games)
+        df = get_players_dataframe(players)
+    else :
+        df = state.players_df
 # 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army'
     if choice == 'Number of wins':
-        to_display = state.players_df.sort_values(['Number of wins','Avg number of points'], ascending=False)
+        to_display = df.sort_values(['Number of wins','Avg number of points'], ascending=False)
         to_display = to_display[['Surname', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Avg number of points', 'Winning rate']][:num_display]
         st.dataframe(to_display.assign(hack='').set_index('hack'))
     elif choice == 'Winning rate':
-        st.dataframe(state.players_df.sort_values(['Winning rate', 'Avg number of points'], ascending=False)[['Surname',  'Winning rate', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Avg number of points']][:num_display].assign(hack='').set_index('hack'))
+        st.dataframe(df.sort_values(['Winning rate', 'Avg number of points'], ascending=False)[['Surname',  'Winning rate', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Avg number of points']][:num_display].assign(hack='').set_index('hack'))
     elif choice == 'Average number of points':
-        st.dataframe(state.players_df.sort_values(['Avg number of points','Winning rate'], ascending=False)[['Surname', 'Avg number of points', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
+        st.dataframe(df.sort_values(['Avg number of points','Winning rate'], ascending=False)[['Surname', 'Avg number of points', 'Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Num. largest army', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
     elif choice == 'Number of largest army':
-        st.dataframe(state.players_df.sort_values(['Num. largest army','Winning rate'], ascending=False)[['Surname', 'Num. largest army','Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
+        st.dataframe(df.sort_values(['Num. largest army','Winning rate'], ascending=False)[['Surname', 'Num. largest army','Number of wins', 'Total games', 'Total of points', 'Num. longest road', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
     elif choice == 'Number of longest road':
-        st.dataframe(state.players_df.sort_values(['Num. longest road','Winning rate'], ascending=False)[['Surname',  'Num. longest road', 'Number of wins', 'Total games', 'Total of points', 'Num. largest army', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
+        st.dataframe(df.sort_values(['Num. longest road','Winning rate'], ascending=False)[['Surname',  'Num. longest road', 'Number of wins', 'Total games', 'Total of points', 'Num. largest army', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
 
 def menu_leaderboard(state):
     st.header("This is the leaderboard page")
@@ -274,56 +288,59 @@ def menu_home(state):
     games = pd.DataFrame()
     home = False
     # Home page : presentation, loading available, display of the loaded .csv and quick display of the leaderboard
-    st.markdown("Welcome to this _easy to use_ Catan leaderboard. ")
-    st.markdown("Here you can load your own Catan games and see, amongst your friends who is the best settler.")
-    with st.beta_expander("Warning: constraints on the .csv file"):
-        st.warning("The .csv file must have the following columns :\n[num_players,names,scores,date,longest_road,largest_army,to_win,extension,group]")
-    csv = st.file_uploader('Upload your .csv file', type = ['csv'])
-    # if file is uploaded
-    if csv is not None:
-        file_details = {'file_name ': csv.name,
-                        'file_size ': csv.size,
-                        'file_type ': csv.type}
-
-        games = get_data(csv)
-        games, players = reform_arrays(games)
-
-        players = update_players_from_db(players, games)
-
-        state.games = games
-        state.players = players
-        state.players_df = get_players_dataframe(state.players)
-
-    # # If one wants to use the existing .csv
-    # if state.db_path:
-    #     col1, col2, col3  = st.beta_columns(3)
-    #     with col1:
-    #         pass
-    #     with col3:
-    #         pass
-    #     with col2 :
-    #         if st.button("Use database's .csv"):
-    #             home = True
-    #
-    # if home :
-    #     games = get_data(path = state.db_path)
-    #     games, players = reform_arrays(games)
-    #     players = update_players_from_db(players, games)
-    #
-    #     state.games = games
-    #     state.players = players
-
-    if np.all(state.games) != None :
-        with st.beta_expander("See .csv file"):
-            st.dataframe(state.games.head().assign(hack='').set_index('hack'))
+    st.write("Welcome to this _easy to use_ Catan leaderboard. \n")
+    st.write("Here you can see, amongst your friends, who is the best settler.")
+    with st.beta_expander("Overview of the application :", expanded = False):
+        st.write(
+            """
+    - Home:
+        - Welcome page
+        - See number of games and number of games per day
+        - Upload your own .csv file
+        - See the current .csv file
+    - Leaderboard:
+        - Display number of games
+        - Choose on what players must be ranked
+        - Display table of winners
+    - Players:
+        - Select a player to see in depth statistics (ondoing)
+        - Add a new player
+    - Add game:
+        - Add new games to database
+            """
+        )
 
     if state.players != None:
         state.players_df = get_players_dataframe(state.players)
 
     if np.all(state.games) != None :
+        st.subheader("Total of played games : "+str(state.games.shape[0]))
         if not state.games.empty :
-            st.plotly_chart(state.games.groupby('date').size().to_frame(name='Number of games').plot(title='Number of games per day').update_layout(xaxis_title='Number of games'))
+            st.plotly_chart(state.games.groupby('date').size().to_frame(name='Number of games').plot.bar(title='Number of games per day').update_layout(xaxis_title='Number of games'))
 
+    if np.all(state.games) != None :
+        with st.beta_expander("See .csv file"):
+            num_display = st.number_input('Display:',1,state.games.shape[0],5)
+            st.dataframe(state.games.tail(num_display).assign(hack='').set_index('hack'))
+
+    with st.beta_expander("Upload your own .csv file"):
+        st.warning("WARNING : \nThe .csv file must have the following columns :\n[num_players,names,scores,date,longest_road,largest_army,to_win,extension,group]")
+        csv = st.file_uploader('Upload your .csv file', type = ['csv'])
+        # if file is uploaded
+        if csv is not None:
+            file_details = {'file_name ': csv.name,
+                            'file_size ': csv.size,
+                            'file_type ': csv.type}
+
+            games = get_data(csv)
+            games, players = reform_arrays(games)
+
+            players = update_players_from_db(players, games)
+
+            state.games = games
+            state.players = players
+            state.players_df = get_players_dataframe(state.players)
+    st.markdown("#")
     st.info("This is an ongoing project, if you have any idea on how to improve it, feel free to contact us at streamlitmailsender@gmail.com")
 
 

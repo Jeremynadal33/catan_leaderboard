@@ -22,6 +22,16 @@ def reform_arrays(df):
     df['scores'] = scores
     return df, unique_names
 
+def get_players_from_subset_games(df):
+    unique_names = {}
+    names = []
+    scores = []
+    for indx in df.index:
+        for name in df['names'][indx] :
+            if name not in unique_names.keys() : unique_names[name] = Player(name)
+
+    return unique_names
+
 
 def send_mail(to_address, subject, text):
     msg = EmailMessage()
@@ -39,7 +49,7 @@ def send_mail(to_address, subject, text):
 
 
 def send_daily_mail(games):
-    print('in daily mail')
+    #print('in daily mail')
     player = Player(surname= 'JMD', first_name = 'Jerem', last_name = 'Nadal', mail = 'jjjnadal33@gmail.com')
     send_welcome_email(player)
 
@@ -61,7 +71,7 @@ def create_players(path='home'):
         return dico
 
 def update_players_from_db(players, games):
-    for ind in range(games.shape[0]):
+    for ind in games.index:
         for player in range(games['num_players'][ind]) :
             players[games['names'][ind][player]].add_game()
             players[games['names'][ind][player]].add_points( int(games['scores'][ind][player]) )
@@ -72,7 +82,6 @@ def update_players_from_db(players, games):
         scores = [int(score) for score in games['scores'][ind]]
         won = np.argmax(scores)
         players[games['names'][ind][won]].add_win()
-
     return players
 
 def get_players_dataframe(players):
@@ -109,6 +118,8 @@ def save_game(df_games, game, path):
     to_append['to_win'] = game.get_to_win()
     to_append['extension'] = game.get_extension()
     to_append['group'] = game.get_group()
+
+    if to_append['group'] == "": to_append['group'] = None
 
     df_games = df_games.append(to_append, ignore_index=True)
     df_games.to_csv(path, index = False)
@@ -153,7 +164,6 @@ def send_game_mail(game):
 
 
 if __name__ == '__main__':
-
 
     player = Player(surname= 'JMD', first_name = 'Jerem', last_name = 'Nadal', mail = 'jjjnadal33@gmail.com')
     send_welcome_email(player)
