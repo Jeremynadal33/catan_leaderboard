@@ -19,3 +19,4 @@ num_players,names,scores,date,longest_road,largest_army,to_win,extension,group
 4,"['Clemsiy', 'LadureLooser', 'GODS', 'JeanMichelDenis']","['8', '6', '7', '10']",2021-04-09,2.0,,10,Base game,LPMC
 6,"['Clemsiy', 'LadureLooser', 'Garcl’invicible', 'Linouze', 'GODS', 'JeanMichelDenis']","['4', '9', '6', '8', '10', '6']",2021-04-09,4.0,4.0,10,Base game,LPMC
 5,"['Garcl’invicible', 'Linouze', 'GODS', 'Clemsiy', 'JeanMichelDenis']","['3', '6', '7', '6', '10']",2021-04-09,,4.0,10,Base game,LPMC
+5,"['GODS', 'LadureLooser', 'MEULS', 'Maringe', 'JeanMichelDenis']","[5, 5, 5, 5, 11]",2021-04-13,4.0,4.0,10,Base game,LPMC

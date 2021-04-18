@@ -5,9 +5,14 @@ import time
 from datetime import date
 import datetime
 import os
+import requests
+from PIL import Image
 
+from io import BytesIO
 from streamlit.hashing import _CodeHasher
 from utils import *
+
+import streamlit.components.v1 as components
 
 try:
     # Before Streamlit 0.65
@@ -125,7 +130,7 @@ def display_leaderboard(state):
     if group != 'All':
         games = state.games[state.games['group']==group]
         players = get_players_from_subset_games(games)
-        
+
         players = update_players_from_db(players, games)
         df = get_players_dataframe(players)
     else :
@@ -144,6 +149,78 @@ def display_leaderboard(state):
     elif choice == 'Number of longest road':
         st.dataframe(df.sort_values(['Num. longest road','Winning rate'], ascending=False)[['Surname',  'Num. longest road', 'Number of wins', 'Total games', 'Total of points', 'Num. largest army', 'Avg number of points', 'Winning rate']][:num_display].assign(hack='').set_index('hack'))
 
+def get_top(df, col, name):
+    temp = df.sort_values(col, ascending = False).reset_index()
+    return round(100*temp.index[temp["Surname"] == name].tolist()[0]/df.shape[0])
+
+
+def display_player(state, player):
+    st.write("##")
+    surname = player.get_surname()
+    pic_path = "https://s3-eu-west-3.amazonaws.com/catan-bucket/public/" + surname.replace("\'","") + '.jpg'
+
+    print(pic_path)
+    default = "https://s3-eu-west-3.amazonaws.com/catan-bucket/public/" + "default.jpg"
+
+    cols = st.beta_columns(3)
+    with cols[1]:
+        try:
+            response = requests.get(pic_path)
+            img = Image.open(BytesIO(response.content))
+            st.image(img, width = 250, caption = surname)
+        except Exception as e:
+            response = requests.get(default)
+            img = Image.open(BytesIO(response.content))
+            st.image(img, width = 250, caption = surname)
+
+
+    cols = st.beta_columns(3)
+    with cols[0]: st.write("")
+    with cols[1]: st.write('Score ')
+    with cols[2]: st.write('Top ')
+
+    t = datetime.datetime.fromtimestamp(time.time())
+
+    if 7 <= t.hour <= 21 :
+        components.html("<hr size = '1', color = black>")
+    else:
+        components.html("<hr size = '1', color = white>")
+
+    df = state.players_df.copy()
+
+    cols = st.beta_columns(3)
+    with cols[0]:
+        st.write("Number of games :")
+        st.write("Number of wins :")
+        st.write("Win rate :")
+        st.write("Total num. of points :")
+        st.write("Average num. of points :")
+        st.write("Number of longest road :")
+        st.write("Longest road rate :")
+        st.write("Number of largest army :")
+        st.write("Largest army rate :")
+    with cols[1]:
+        st.write(str(player.get_num_games()))
+        st.write(str(player.get_win()))
+        st.write(str(round(100*player.get_win()/player.get_num_games()))+'%')
+        st.write(str(player.get_total_points()))
+        st.write(str(round(player.get_total_points()/player.get_num_games(),2)))
+        st.write(str(player.get_longest()))
+        st.write(str(round(100*player.get_longest()/player.get_num_games()))+'%')
+        st.write(str(player.get_largest()))
+        st.write(str(round(100*player.get_largest()/player.get_num_games() ))+'%')
+    with cols[2]:
+        st.write( str(get_top(df, "Total games", surname))+'%' )
+        st.write( str(get_top(df, "Number of wins", surname))+'%' )
+        st.write( str(get_top(df, "Winning rate", surname))+'%' )
+        st.write( str(get_top(df, "Total of points", surname))+'%' )
+        st.write( str(get_top(df, "Avg number of points", surname))+'%' )
+        st.write( str(get_top(df, "Num. longest road", surname))+'%' )
+        st.write( str(get_top(df, "Longest road rate", surname))+'%' )
+        st.write( str(get_top(df, "Num. largest army", surname))+'%' )
+        st.write( str(get_top(df, "Largest army rate", surname))+'%' )
+
+
 def menu_leaderboard(state):
     st.header("This is the leaderboard page")
     st.subheader("Here you can view in depth statistics on the loaded games")
@@ -160,6 +237,8 @@ def menu_leaderboard(state):
         else:
             st.write('Please, load a csv file or add new games first.')
 
+
+
 def menu_players(state):
     temp = None
     st.header("This is the players' page")
@@ -170,7 +249,8 @@ def menu_players(state):
     if state.players != None:
         with cols[0]:
             player = st.selectbox( "Select a player", ['']+list(state.players.keys()) )
-        if player != '' : st.write( state.players[player].display() )
+        if player != '' :
+            display_player(state, state.players[player])
     else :
         st.write('Please, load a csv file on the _Home_ page first')
 
@@ -186,6 +266,7 @@ def menu_players(state):
             first_name = st.text_input("First name",value = "", max_chars=20)
             last_name = st.text_input("Last name",value = "", max_chars=20)
             mail = st.text_input("Mail adress",value = "", max_chars=40)
+            img = st.file_uploader('Profile pic', type = ['jpg','png','jpeg','pdf'])
             player = Player(surname, first_name, last_name, mail)
 
         cols = st.beta_columns([3,1,1])
@@ -200,7 +281,7 @@ def menu_players(state):
                     elif not re.match('[^@]+@[^@]+\.[^@]+',player.get_mail()):
                         st.error("Mail looks invalid, if it is not, please contact streamlitmailsender@gmail.com")
                     else:
-                        temp = add_player(state.players_info, player, state.player_path )
+                        temp = add_player(state.players_info, player, state.player_path , img)
                         st.warning("Sucessfully added {} to the players database".format(player.get_surname()))
     time.sleep(1)
     if np.all(temp) :
@@ -209,71 +290,73 @@ def menu_players(state):
     with st.beta_expander("Warning"):
         st.warning("Each player must have its own surname and mail adress")
 
-def add_game(state):
+def menu_games(state):
     temp = False
     longest = ""
     largest = ""
-    st.header("This is the add game page")
-    st.subheader("Here you can add games")
+    st.header("This is the Games' page")
+    st.subheader("Here you can add, modify or delete a game")
     with st.beta_expander("Warning"):
         st.warning("You cannot enter a game with unregistered players")
-    cols = st.beta_columns([1,1,1])
-    with cols[0]:
-        num_persons = st.slider("Number of players", 3, 6, 3, 1)
-        extension = st.selectbox('Extension:',('Base game', 'Villes et chevaliers','Marins'))
-    with cols[1]:
-        game_date = st.date_input('Date', date.today() )
-        to_win = st.number_input('Number of points to win',7,20,10)
-    with cols[2]:
-        group = st.text_input("Group:","")
 
-    cols = st.beta_columns([1,1,1])
-    names = []
-    scores = []
-    with cols[0]:
-        for player in range(num_persons):
-            if np.all(state.players_info) != None:
-                names.append(st.selectbox(f"Player {player+1}:",['']+[surname for surname in list(state.players_info['surname']) if surname not in names]))
-            else:
-                names.append(st.text_input(f"Player {player+1}:",max_chars = 30))
-    with cols[1] :
-        for player in range(num_persons):
-            scores.append(st.number_input(f"Score {player+1}:",0,to_win+1,0 ))
+    with st.beta_expander("Add a new game"):
+        cols = st.beta_columns([1,1,1])
+        with cols[0]:
+            num_persons = st.slider("Number of players", 3, 6, 3, 1)
+            extension = st.selectbox('Extension:',('Base game', 'Villes et chevaliers','Marins'))
+        with cols[1]:
+            game_date = st.date_input('Date', date.today() )
+            to_win = st.number_input('Number of points to win',7,20,10)
+        with cols[2]:
+            group = st.text_input("Group:","")
 
-
-    if names[0] != "":
-        longest = st.selectbox("Longest road", ['']+names)
-        largest = st.selectbox("Largest army", ['']+names)
-
-    if longest == '':
-        longest = None
-    else :
-        longest = int(names.index(longest))
+        cols = st.beta_columns([1,1,1])
+        names = []
+        scores = []
+        with cols[0]:
+            for player in range(num_persons):
+                if np.all(state.players_info) != None:
+                    names.append(st.selectbox(f"Player {player+1}:",['']+[surname for surname in list(state.players_info['surname']) if surname not in names]))
+                else:
+                    names.append(st.text_input(f"Player {player+1}:",max_chars = 30))
+        with cols[1] :
+            for player in range(num_persons):
+                scores.append(st.number_input(f"Score {player+1}:",0,to_win+1,0 ))
 
 
-    if largest == '':
-        largest = None
-    else:
-        largest = int(names.index(largest))
+        if names[0] != "":
+            longest = st.selectbox("Longest road", ['']+names)
+            largest = st.selectbox("Largest army", ['']+names)
 
-    game = Game(num_players = num_persons, names = names,
-                scores = scores , date = game_date,
-                longest_road = longest , largest_army = largest ,
-                to_win = to_win, extension = extension,
-                group = group)
+        if longest == '':
+            longest = None
+        else :
+            longest = int(names.index(longest))
 
-    if st.button("Save"):
-        if not ( np.any(np.array(game.get_scores()) >= game.get_to_win()) ) :
-            st.error("No one won yet")
-        elif sorted(scores)[-1] == sorted(scores)[-2]:
-            st.error("A player must have more points than all others.")
-        elif not np.all([False for name in names if name == ""]):
-            st.error("Name(s) is(are) missing")
+
+        if largest == '':
+            largest = None
         else:
-            st.info("Sucessfully added game to database")
-            save_game(state.games, game, state.db_path)
+            largest = int(names.index(largest))
 
-    time.sleep(1)
+        game = Game(num_players = num_persons, names = names,
+                    scores = scores , date = game_date,
+                    longest_road = longest , largest_army = largest ,
+                    to_win = to_win, extension = extension,
+                    group = group)
+
+        if st.button("Save"):
+            if not ( np.any(np.array(game.get_scores()) >= game.get_to_win()) ) :
+                st.error("No one won yet")
+            elif sorted(scores)[-1] == sorted(scores)[-2]:
+                st.error("A player must have more points than all others.")
+            elif not np.all([False for name in names if name == ""]):
+                st.error("Name(s) is(are) missing")
+            else:
+                st.info("Sucessfully added game to database")
+                save_game(state.games, game, state.db_path)
+
+        time.sleep(1)
 
     games = get_data(path = state.db_path)
     games, players = reform_arrays(games)
@@ -305,8 +388,9 @@ def menu_home(state):
     - Players:
         - Select a player to see in depth statistics (ondoing)
         - Add a new player
-    - Add game:
+    - Games:
         - Add new games to database
+        - Modify or delete a game
             """
         )
 
@@ -360,16 +444,11 @@ def main():
             state.players_info = pd.read_csv(path)
 
     st.title("Catan winners : let's see who is the best settler")
-    possibilities = ["Home", "Leaderboard", "Players", "Add game"]
+    possibilities = ["Home", "Leaderboard", "Players", "Games"]
     choice = st.sidebar.selectbox("Menu",possibilities)
 
     t = datetime.datetime.fromtimestamp(time.time())
 
-    if (t.hour, t.minute)==(23,58):
-        print('its time')
-        send_daily_mail(state.games)
-    else :
-        print('no')
 
     if choice == 'Home':
         menu_home(state)
@@ -377,8 +456,8 @@ def main():
         menu_leaderboard(state)
     elif choice == 'Players':
         menu_players(state)
-    elif choice == 'Add game':
-        add_game(state)
+    elif choice == 'Games':
+        menu_games(state)
 
     # Mandatory to avoid rollbacks with widgets, must be called at the end of your app
     state.sync()

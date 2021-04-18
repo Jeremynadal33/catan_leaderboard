@@ -43,6 +43,8 @@ class Player:
         return self.first_name
     def get_last_name(self):
         return self.last_name
+    def get_total_points(self):
+        return self.total_points
 
     def display(self):
         assert self.num_games != 0, 'Update players before display'

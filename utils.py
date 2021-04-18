@@ -4,6 +4,12 @@ import re
 import smtplib, ssl
 from email.message import EmailMessage
 from classes import *
+import os
+# import requests
+# from PIL import Image
+#
+# from io import BytesIO
+# import streamlit as st
 
 def reform_arrays(df):
     unique_names = {}
@@ -21,6 +27,30 @@ def reform_arrays(df):
     df['names'] = names
     df['scores'] = scores
     return df, unique_names
+
+def upload_img(img, surname):
+    file_name = surname.replace("\'","") +'.jpg'
+    path = 'data/temp/'+file_name
+
+    with open(path, "wb") as f :
+        f.write(img.getbuffer())
+    if os.path.exists(path):
+        os.system("aws s3 cp "+path+' '+"s3://catan-bucket/public/"+file_name)
+        os.system("aws s3api put-object-acl --acl public-read --bucket catan-bucket  --key public/"+file_name)
+    # pic_path = "https://s3-eu-west-3.amazonaws.com/catan-bucket/public/" + surname.replace("\'","") + ".jpg"
+    #
+    # default = "https://s3-eu-west-3.amazonaws.com/catan-bucket/public/default.jpg"
+    #
+    # try:
+    #     response = requests.get(pic_path)
+    #     img = Image.open(BytesIO(response.content))
+    #     st.image(img, width = 250, caption = surname)
+    # except Exception as e:
+    #     response = requests.get(default)
+    #     img = Image.open(BytesIO(response.content))
+    #     st.image(img, width = 250, caption = surname)
+
+
 
 def get_players_from_subset_games(df):
     unique_names = {}
@@ -94,7 +124,7 @@ def get_players_dataframe(players):
     df['Largest army rate'] = (df['Num. largest army']/df['Total games']).astype('float64').round(2)
     return df
 
-def add_player(df_player, player, path):
+def add_player(df_player, player, path, img):
     to_append = {}
     to_append['surname'] = player.get_surname()
     to_append['first_name'] = player.get_first_name()
@@ -103,6 +133,9 @@ def add_player(df_player, player, path):
     df_player = df_player.append(to_append, ignore_index=True)
 
     df_player.to_csv(path, index = False)
+
+    if img is not None:
+        upload_img(img, player.get_surname())
 
     send_welcome_email(player)
     return df_player
