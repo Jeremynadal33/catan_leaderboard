@@ -161,8 +161,8 @@ def save_game(df_games, game, path):
 
 def send_welcome_email(player):
     text = "Welcome " + str(player.get_surname())+".\n"
-    text += "The streamlit application support is happy to count you as a Catan settler.\nWe are looking forward to play Catan with you. You can add games at the following address : http://52.47.40.217:8501"
-    text += "\n\nKind regards,\nStreamlit application support."
+    text += "The Catan leaderboard application support is happy to count you as a Catan settler.\nWe are looking forward to play Catan with you. You can add games at the following address : http://52.47.40.217:8501"
+    text += "\n\nKind regards,\Catan leaderboard application support."
 
     send_mail(to_address = player.get_mail(), subject='Welcome to Catan Leaderboard', text= text)
 
