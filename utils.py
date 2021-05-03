@@ -5,11 +5,6 @@ import smtplib, ssl
 from email.message import EmailMessage
 from classes import *
 import os
-# import requests
-# from PIL import Image
-#
-# from io import BytesIO
-# import streamlit as st
 
 def reform_arrays(df):
     unique_names = {}
@@ -32,10 +27,10 @@ def upload_img(img, surname):
     file_name = surname.replace("\'","") +'.jpg'
     path = 'data/temp/'+file_name
 
-    with open(path, "wb") as f :
+    with open(img.name, "wb") as f :
         f.write(img.getbuffer())
     if os.path.exists(path):
-        os.system("aws s3 cp "+path+' '+"s3://catan-bucket/public/"+file_name)
+        os.system("aws s3 cp " + img.name + ' ' + "s3://catan-bucket/public/"+file_name)
         os.system("aws s3api put-object-acl --acl public-read --bucket catan-bucket  --key public/"+file_name)
     # pic_path = "https://s3-eu-west-3.amazonaws.com/catan-bucket/public/" + surname.replace("\'","") + ".jpg"
     #
