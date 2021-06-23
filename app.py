@@ -42,7 +42,6 @@ def get_data(path):
 
 #################### FOR SESSION STATE FROM ONE PAGE TO THE OTHER ###################
 class _SessionState:
-
     def __init__(self, session, hash_funcs):
         """Initialize SessionState instance."""
         self.__dict__["_state"] = {
